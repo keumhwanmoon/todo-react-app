@@ -1,6 +1,7 @@
 import React from 'react';
 import Todo from './Todo';
 import AddTodo from './AddTodo';
+import {call} from './FetchUtils';
 import { Paper, List, Container } from "@material-ui/core";
 import './App.css';
 
@@ -8,21 +9,29 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [
-        {id: "0", title: "Hello World 1", done: true},
-        {id: "1", title: "Hello World 2", done: false}
-      ]
+      items: []
     }
   }
 
-  add = (item) => {
-    const thisItems = this.state.items;
+  componentDidMount() {
+    console.log("App Component is Mounted!");
 
-    item.id = `ID=${thisItems.length}`;
-    item.done = false;
-    thisItems.push(item);
-    this.setState({items: thisItems});
-    console.log("items : ", this.state.items);
+    this.reload();    
+  }
+
+  reload = () => {
+    call("/todo")
+      .then((response) => {
+        console.log("response :", response);
+        this.setState({ items: response.result });
+      });
+  }
+
+  add = (item) => {
+    call("/todo", "POST", item)
+      .then(() => {
+        this.reload();
+      });
   }
 
   delete = (item) => {

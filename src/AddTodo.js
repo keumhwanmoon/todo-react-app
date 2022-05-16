@@ -8,22 +8,26 @@ class AddTodo extends React.Component {
         this.add = props.add;
     }
 
-    onInputChange = (e) => {
-        const thisItem = this.state.item;
+    componentDidMount() {
+        console.log("AddTodo Component is Mounted!");
+      }
 
+    changeTitle = (e) => {
+        const thisItem = this.state.item;
+        console.log(`title values is ${e.target.value}`)
         thisItem.title = e.target.value;
         this.setState({item: thisItem});
         console.log(thisItem);
     }
 
-    onButtonClick = (e) => {
+    clickButtonAdd = (e) => {
         this.add(this.state.item);
         this.setState({item: {title: ""}});
     }
 
-    pressEnterOnTextField = (e) => {
+    pressEnterOnTitle = (e) => {
         if (e.key === 'Enter') {
-            this.onButtonClick();
+            this.clickButtonAdd(e);
         }
     }
 
@@ -35,8 +39,8 @@ class AddTodo extends React.Component {
                         <TextField
                         placeholer="Add Todo here"
                         fullWidth
-                        onChange={this.onInputChange}
-                        onKeyPress={this.pressEnterOnTextField}
+                        onChange={this.changeTitle}
+                        onKeyPress={this.pressEnterOnTitle}
                         value={this.state.item.title}
                         />
                     </Grid>
@@ -45,7 +49,7 @@ class AddTodo extends React.Component {
                         fullWidth
                         color="secondary"
                         variant="outlined"
-                        onClick={this.onButtonClick}
+                        onClick={this.clickButtonAdd}
                         >
                             +
                         </Button>
