@@ -1,0 +1,12 @@
+### 목록 조회
+GET localhost:8080/todo
+
+### 저장
+POST localhost:8080/todo
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Todo 4",
+  "done": false
+}
